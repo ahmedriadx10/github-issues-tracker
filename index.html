@@ -31,17 +31,53 @@
     />
 
     <style>
-    /* google font apply */
+      /* google font apply */
       * {
         font-family: "Geist", sans-serif;
       }
     </style>
   </head>
   <body>
+    <!-- login form -->
 
-<h1>Login page</h1>
+    <section class="h-screen grid place-items-center py-20">
+      <div class="card bg-base-100 w-[90%] max-w-md shadow">
+        <div class="py-5 text-center mt-2">
+          <img
+            src="./assets/github-logo.png"
+            alt="github logo"
+            class="mx-auto w-[100px] h-[100px]"
+          />
+          <div class="mt-6">
+            <h2 class="font-semibold text-2xl">GitHub Issues Tracker</h2>
+            <p class="text-[#64748B]">Sign in to manage your issues</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <fieldset class="fieldset">
+            <label class="label">Username</label>
+            <input
+              type="text"
+              class="input w-full"
+              placeholder="Enter Username"
+              id="user-name-input"
+            />
+            <label class="label">Password</label>
+            <input
+              type="password"
+              class="input w-full"
+              placeholder="Enter Password"
+              id="user-login-pass"
+            />
+            <button class="btn btn-primary mt-4" id="sign-in-btn">
+              Sign In
+            </button>
+          </fieldset>
+        </div>
+      </div>
+    </section>
 
-<script src="./scripts/login.js"></script>
-
+    <script src="./scripts/reusable.js"></script>
+    <script src="./scripts/login.js"></script>
   </body>
 </html>
