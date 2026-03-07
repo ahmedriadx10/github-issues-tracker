@@ -4,7 +4,9 @@ const issuesCount = elementTaker("issues-count");
 const tabButtonsContainer = elementTaker("tab-buttons-container");
 const userSearchInput = elementTaker("user-search-input");
 const searchBtn = elementTaker("search-issues-btn");
-
+const issueDetailsModal = elementTaker("issue-details");
+const detailsSpinner = elementTaker("details-loading");
+const detailsModal = elementTaker("detailsShowModal");
 let issuesData = [];
 
 async function getAllIssues() {
@@ -78,7 +80,7 @@ function renderIssuesUI(getData) {
 
     issueCard.innerHTML = `
   
-  <div data-id='${id}' class="card bg-base-100 shadow-lg rounded-md    border-t-4 ${status === "open" ? "border-success" : "border-[#A855F7]"} w-full h-full">
+  <div data-id='${id}' class="detail-show card bg-base-100 shadow-lg rounded-md    border-t-4 ${status === "open" ? "border-success" : "border-[#A855F7]"} w-full h-full">
 
 <!-- card content -->
  <div class="p-4">  <!-- status and priority area -->
@@ -142,4 +144,79 @@ tabButtonsContainer.addEventListener("click", (e) => {
       renderIssuesUI(filterTabIssueCards);
     }
   }
+});
+
+/**
+ * 
+ *
+    "id": 1,
+    "title": "Fix navigation menu on mobile devices",
+    "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
+    "status": "open",
+    "labels": [
+        "bug",
+        "help wanted"
+    ],
+    "priority": "high",
+    "author": "john_doe",
+    "assignee": "jane_smith",
+    "createdAt": "2024-01-15T10:30:00Z",
+    "updatedAt": "2024-01-15T10:30:00Z"
+}} x 
+ */
+
+async function issueDetailsGet(x) {
+  const getDetailsData = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issue/${x}`,
+  );
+  const convData = await getDetailsData.json();
+
+  const { data } = convData;
+
+  const {
+    title,
+    description,
+    status,
+    labels,
+    priority,
+    author,
+    assignee,
+    updatedAt,
+  } = data;
+
+  issueDetailsModal.innerHTML = `
+
+<div>
+  <h4 class="font-bold text-2xl mb-2">${title}</h4>
+  <ul class="flex">
+    <li>${status === "open" ? "<span class='badge badge-success text-white rounded-full'>Opened</span>" : "<span class='badge badge-primary  rounded-full'>Closed</span>"}</li>
+    <li class="text-[#64748B] list-disc ml-7">Opened by ${assignee ? assignee : "Unknown"}</li>
+  <li class="text-[#64748B] list-disc ml-7">${updatedAt.slice(0, 10)}</li>
+  </ul>
+  <div class='mt-6'>${labelsSet(labels)}</div>
+</div> 
+
+<p class="text-[#64748B]">${description}</p>
+
+<div class="bg-[#F8FAFC] p-4 rounded-lg grid grid-cols-2">
+<div >
+<p class="text-[#64748B] mb-2">Assignee:</p>
+<p class="font-semibold text-[#1F2937]">${assignee ? assignee : "Unknown"}</p>
+</div>
+<div>
+  <p class="text-[#64748B] mb-2">Priority:</p>
+<p>${setPriorityBatch(priority)}</p>
+</div>
+</div>
+`;
+
+  detailsModal.showModal();
+}
+
+issuesCardContainer.addEventListener("click", (e) => {
+  const targetElement = e.target;
+
+  const getIssueCard = targetElement.closest(".detail-show");
+  const issueID = getIssueCard.dataset.id;
+  issueDetailsGet(Number(issueID));
 });

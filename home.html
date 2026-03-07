@@ -188,6 +188,40 @@
 
     </section>
 
+
+
+<!-- Open the modal using ID.showModal() method -->
+
+<dialog id="detailsShowModal" class="modal">
+  <div class="modal-box">
+  
+    <!-- modal body-->
+
+    <div class="">
+      <!-- details loading spinner -->
+       <div id="details-loading" class="hidden">
+        <span class="loading loading-spinner text-primary"></span>
+       </div>
+<!-- issues details -->
+<div class="space-y-6" id="issue-details">
+
+
+
+</div>
+
+    </div>
+
+
+
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn btn-primary">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
+
     <script src="./scripts/reusable.js"></script>
     <script src="./scripts/home.js"></script>
   </body>
