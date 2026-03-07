@@ -105,7 +105,7 @@ function renderIssuesUI(getData) {
       author,
       createdAt,
     } = x;
-console.log(status)
+
     const issueCard = document.createElement("div");
 
     issueCard.innerHTML = `
@@ -115,7 +115,7 @@ console.log(status)
 <!-- card content -->
  <div class="p-4">  <!-- status and priority area -->
 <div class="flex justify-between items-center">
-  ${status === "open" ? '<img src="./assets/Status.png" alt="">' : '<img src="./assets/close-status.png" alt="">'}
+  ${status === "open" ? '<img src="../assets/Status.png" alt="">' : '<img src="./assets/close-status.png" alt="">'}
 <div>${setPriorityBatch(priority)}</div>
 </div>
 
@@ -235,7 +235,7 @@ async function issueDetailsGet(x) {
 
 <div>
   <h4 class="font-bold text-2xl mb-2">${title}</h4>
-  <ul class="flex">
+  <ul class="flex flex-wrap gap-1">
     <li>${status === "open" ? "<span class='badge badge-success text-white rounded-full'>Opened</span>" : "<span class='badge badge-primary  rounded-full'>Closed</span>"}</li>
     <li class="text-[#64748B] list-disc ml-7">Opened by ${assignee ? assignee : "Unknown"}</li>
   <li class="text-[#64748B] list-disc ml-7">${updatedAt.slice(0, 10)}</li>
