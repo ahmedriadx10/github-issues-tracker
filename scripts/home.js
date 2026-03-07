@@ -1,5 +1,5 @@
 const issuesCardContainer = elementTaker("issues-card-container");
-const loadingSpinner = elementTaker("spinner-container");
+const loadingSpinner = elementTaker("loading-spinner");
 const issuesCount = elementTaker("issues-count");
 const tabButtonsContainer = elementTaker("tab-buttons-container");
 const userSearchInput = elementTaker("user-search-input");
@@ -11,7 +11,23 @@ const footerUserSearch = elementTaker("user-search-input-footer");
 const footerSearchBtn = elementTaker("footer-search-issues-btn");
 let issuesData = [];
 
+
+function issuesLoading(wanna){
+
+
+  if(wanna){
+      loadingSpinner.classList.remove("hidden")
+      issuesCardContainer.classList.add('hidden')
+
+  }
+  else{
+        loadingSpinner.classList.add("hidden")
+      issuesCardContainer.classList.remove('hidden')
+      
+  }
+}
 async function getAllIssues() {
+  issuesLoading(true)
   const dataGet = await fetch(
     "https://phi-lab-server.vercel.app/api/v1/lab/issues",
   );
@@ -20,6 +36,7 @@ async function getAllIssues() {
   const { data } = convData;
 
   issuesData = data;
+  issuesLoading(false)
   renderIssuesUI(data);
 }
 
@@ -87,7 +104,7 @@ function renderIssuesUI(getData) {
 <!-- card content -->
  <div class="p-4">  <!-- status and priority area -->
 <div class="flex justify-between items-center">
-  ${status === "open" ? '<img src="./assets/close-status.png" alt="">' : '<img src="./assets/close-status.png" alt="">'}
+  ${status === "open" ? '<img src="./assets/open-status.png" alt="">' : '<img src="./assets/close-status.png" alt="">'}
 <div>${setPriorityBatch(priority)}</div>
 </div>
 
@@ -170,12 +187,27 @@ footerSearchBtn.addEventListener("click", () => {
   footerUserSearch.value = "";
 });
 
+
+function modalLoading(wanna){
+  if(wanna){
+    detailsSpinner.classList.remove('hidden')
+issueDetailsModal.classList.add('hidden')
+  }
+  else{
+        detailsSpinner.classList.add('hidden')
+issueDetailsModal.classList.remove('hidden')
+  }
+}
+
 async function issueDetailsGet(x) {
+detailsModal.showModal();
+  modalLoading(true)
   const getDetailsData = await fetch(
     `https://phi-lab-server.vercel.app/api/v1/lab/issue/${x}`,
   );
   const convData = await getDetailsData.json();
 
+  modalLoading(false)
   const { data } = convData;
 
   const {
@@ -215,13 +247,16 @@ async function issueDetailsGet(x) {
 </div>
 `;
 
-  detailsModal.showModal();
+  
 }
 
 issuesCardContainer.addEventListener("click", (e) => {
   const targetElement = e.target;
 
   const getIssueCard = targetElement.closest(".detail-show");
+  
   const issueID = getIssueCard.dataset.id;
   issueDetailsGet(Number(issueID));
 });
+
+
