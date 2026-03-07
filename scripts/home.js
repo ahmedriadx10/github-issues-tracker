@@ -49,7 +49,7 @@ function labelsSet(labels) {
     } else if (x === "enhancement") {
       return `  <div class="rounded-full badge badge-soft badge-success uppercase font-medium"><img src='./assets/Vector.png'> ${x}</div>`;
     } else if (x === "documentation") {
-      return `  <div class="rounded-full badge badge-soft badge-primary uppercase font-medium"><i class="fa-solid fa-file-circle-exclamation"></i> ${x}</div>`;
+      return `  <div class="rounded-full badge badge-soft badge-primary uppercase font-medium"><i class="fa-solid fa-file"></i> ${x}</div>`;
     } else if (x === "good first issue") {
       return `  <div class="rounded-full badge badge-soft badge-info uppercase font-medium"><i class="fa-solid fa-thumbs-up"></i> ${x}</div>`;
     }
@@ -78,12 +78,12 @@ function renderIssuesUI(getData) {
 
     issueCard.innerHTML = `
   
-  <div data-id='${id}' class="card bg-base-100 shadow-lg rounded-md    border-t-4 border-success w-full h-full">
+  <div data-id='${id}' class="card bg-base-100 shadow-lg rounded-md    border-t-4 ${status === "open" ? "border-success" : "border-[#A855F7]"} w-full h-full">
 
 <!-- card content -->
  <div class="p-4">  <!-- status and priority area -->
 <div class="flex justify-between items-center">
-  <img src="./assets/Open-Status.png" alt="">
+  ${status === "open" ? '<img src="./assets/open-status.png" alt="">' : '<img src="./assets/close-status.png" alt="">'}
 <div>${setPriorityBatch(priority)}</div>
 </div>
 
@@ -111,24 +111,35 @@ function renderIssuesUI(getData) {
   `;
     issuesCardContainer.appendChild(issueCard);
   });
+
+  issuesCount.innerText = issuesCardContainer.children.length;
 }
 
 getAllIssues();
 
-/**
- * {
-    "id": 1,
-    "title": "Fix navigation menu on mobile devices",
-    "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
-    "status": "open",
-    "labels": [
-        "bug",
-        "help wanted"
-    ],
-    "priority": "high",
-    "author": "john_doe",
-    "assignee": "jane_smith",
-    "createdAt": "2024-01-15T10:30:00Z",
-    "updatedAt": "2024-01-15T10:30:00Z"
-}
- */
+// tab issues
+
+tabButtonsContainer.addEventListener("click", (e) => {
+  const targetButton = e.target;
+
+  if (targetButton.classList.contains("tab-button")) {
+    const allButtons = tabButtonsContainer.querySelectorAll(".tab-button");
+
+    allButtons.forEach((button) => {
+      button.classList.remove("btn-primary");
+    });
+
+    targetButton.classList.add("btn-primary");
+
+    if (targetButton.innerText === "All") {
+      getAllIssues();
+    } else {
+      const tabIssue = targetButton.innerText.toLowerCase();
+
+      const filterTabIssueCards = issuesData.filter((issue) => {
+        return issue.status === tabIssue;
+      });
+      renderIssuesUI(filterTabIssueCards);
+    }
+  }
+});
