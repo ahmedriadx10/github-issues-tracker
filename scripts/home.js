@@ -87,7 +87,7 @@ function renderIssuesUI(getData) {
 <!-- card content -->
  <div class="p-4">  <!-- status and priority area -->
 <div class="flex justify-between items-center">
-  ${status === "open" ? '<img src="./assets/open-status.png" alt="">' : '<img src="./assets/close-status.png" alt="">'}
+  ${status === "open" ? '<img src="./assets/close-status.png" alt="">' : '<img src="./assets/close-status.png" alt="">'}
 <div>${setPriorityBatch(priority)}</div>
 </div>
 
