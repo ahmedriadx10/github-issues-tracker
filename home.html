@@ -41,9 +41,13 @@
       * {
         font-family: "Geist", sans-serif;
       }
+
+      .purple{
+        color: #A855F7;
+      }
     </style>
   </head>
-  <body >
+  <body>
     <!-- navbar -->
     <nav>
       <div class="navbar flex-col gap-5 sm:flex-row bg-base-100 shadow-sm">
@@ -88,21 +92,67 @@
       </div>
     </nav>
 
+    <!-- tab section -->
+    <section class="mt-[60px] max-w-6xl mx-auto w-[90%]">
+      <!-- tab buttons container -->
+
+      <div
+        class="flex gap-2 p-6 shadow-sm bg-base-100 rounded-lg"
+        id="tab-buttons-container"
+      >
+        <button class="tab-button btn btn-primary w-auto sm:w-28">All</button>
+        <button class="tab-button btn w-auto sm:w-28">Open</button>
+        <button class="tab-button btn w-auto sm:w-28">Closed</button>
+      </div>
+    </section>
+
+    <!-- issues section -->
+    <section class="mt-4 max-w-6xl w-[90%] mx-auto shadow-sm bg-[#fafafa] rounded-b-lg">
+      <!-- issues tab area -->
+      <div
+        class="flex justify-between items-center p-6 bg-base-100 shadow-sm rounded-t-lg"
+      >
+        <!-- issues count and logo -->
+        <div class="flex gap-2 items-center">
+          <div class="bg-primary-content p-3 rounded-full">
+            <img src="./assets/Aperture.png" alt="" />
+          </div>
+          <div>
+            <h4 class="font-semibold text-xl">
+              <span id="issues-count">0</span> Issues
+            </h4>
+            <p class="text-[#64748B]">Track and manage your project issues</p>
+          </div>
+        </div>
+
+        <!-- status area -->
+        <div class="flex gap-4 font-medium">
+          <p><i class="text-[12px] fa-solid fa-circle text-success"></i> Open</p>
+          <p><i class="text-[12px] fa-solid fa-circle purple"></i> Closed</p>
+        </div>
+      </div>
 
 
-<!-- tab section -->
- <section class="mt-[60px] max-w-6xl mx-auto w-[90%]">
+<!-- issues content area -->
 
-<!-- tab buttons container -->
+<section class="">
+<!-- loading spinner -->
+<section class="hidden" id="loading-spinner">
+  <div class="p-10 grid place-items-center" id="spinner-container"><span class="w-10 loading loading-spinner text-primary"></span></>
+</section>
 
-<div class="flex gap-2 p-6 shadow-sm bg-base-100 rounded-lg" id="tab-buttons-container">
-  <button class="tab-button btn btn-primary w-auto sm:w-28">All</button>
-  <button class="tab-button btn w-auto sm:w-28">Open</button>
-  <button class="tab-button btn w-auto sm:w-28">Closed</button>
-</div>
 
- </section>
 
+
+
+<!-- issues cards area -->
+
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="issues-card-container"></section>
+
+</section>
+
+
+    </section>
 
     <script src="./scripts/reusable.js"></script>
     <script src="./scripts/home.js"></script>
