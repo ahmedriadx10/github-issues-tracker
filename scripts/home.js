@@ -7,6 +7,8 @@ const searchBtn = elementTaker("search-issues-btn");
 const issueDetailsModal = elementTaker("issue-details");
 const detailsSpinner = elementTaker("details-loading");
 const detailsModal = elementTaker("detailsShowModal");
+const footerUserSearch = elementTaker("user-search-input-footer");
+const footerSearchBtn = elementTaker("footer-search-issues-btn");
 let issuesData = [];
 
 async function getAllIssues() {
@@ -146,24 +148,27 @@ tabButtonsContainer.addEventListener("click", (e) => {
   }
 });
 
-/**
- * 
- *
-    "id": 1,
-    "title": "Fix navigation menu on mobile devices",
-    "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
-    "status": "open",
-    "labels": [
-        "bug",
-        "help wanted"
-    ],
-    "priority": "high",
-    "author": "john_doe",
-    "assignee": "jane_smith",
-    "createdAt": "2024-01-15T10:30:00Z",
-    "updatedAt": "2024-01-15T10:30:00Z"
-}} x 
- */
+async function matchedSearchIssueGet(x) {
+  const getMatched = await fetch(
+    ` https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${x}`,
+  );
+  const convData = await getMatched.json();
+
+  const { data } = convData;
+  renderIssuesUI(data);
+}
+
+searchBtn.addEventListener("click", () => {
+  const searchValue = userSearchInput.value;
+  matchedSearchIssueGet(searchValue);
+  userSearchInput.value = "";
+});
+
+footerSearchBtn.addEventListener("click", () => {
+  const searchValue = footerUserSearch.value;
+  matchedSearchIssueGet(searchValue);
+  footerUserSearch.value = "";
+});
 
 async function issueDetailsGet(x) {
   const getDetailsData = await fetch(
