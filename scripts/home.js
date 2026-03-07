@@ -11,23 +11,17 @@ const footerUserSearch = elementTaker("user-search-input-footer");
 const footerSearchBtn = elementTaker("footer-search-issues-btn");
 let issuesData = [];
 
-
-function issuesLoading(wanna){
-
-
-  if(wanna){
-      loadingSpinner.classList.remove("hidden")
-      issuesCardContainer.classList.add('hidden')
-
-  }
-  else{
-        loadingSpinner.classList.add("hidden")
-      issuesCardContainer.classList.remove('hidden')
-      
+function issuesLoading(wanna) {
+  if (wanna) {
+    loadingSpinner.classList.remove("hidden");
+    issuesCardContainer.classList.add("hidden");
+  } else {
+    loadingSpinner.classList.add("hidden");
+    issuesCardContainer.classList.remove("hidden");
   }
 }
 async function getAllIssues() {
-  issuesLoading(true)
+  issuesLoading(true);
   const dataGet = await fetch(
     "https://phi-lab-server.vercel.app/api/v1/lab/issues",
   );
@@ -36,7 +30,7 @@ async function getAllIssues() {
   const { data } = convData;
 
   issuesData = data;
-  issuesLoading(false)
+  issuesLoading(false);
   renderIssuesUI(data);
 }
 
@@ -81,6 +75,23 @@ function labelsSet(labels) {
 }
 
 function renderIssuesUI(getData) {
+  if (getData.length === 0) {
+    issuesCardContainer.innerHTML = "";
+    const empthMessage = document.createElement("div");
+    empthMessage.innerHTML = `
+    <div ">
+  <div class="flex justify-center"><i class="text-6xl text-primary fa-solid fa-face-frown" ></i></div>
+  <p class="text-center font-bold text-2xl mt-2">Issues Not Found !!</p>
+</div>
+    `;
+
+    empthMessage.className = "col-span-full";
+
+    issuesCardContainer.appendChild(empthMessage);
+    issuesCount.innerText = 0;
+    return;
+  }
+
   issuesCardContainer.innerHTML = "";
 
   getData.forEach((x) => {
@@ -94,7 +105,7 @@ function renderIssuesUI(getData) {
       author,
       createdAt,
     } = x;
-
+console.log(status)
     const issueCard = document.createElement("div");
 
     issueCard.innerHTML = `
@@ -104,7 +115,7 @@ function renderIssuesUI(getData) {
 <!-- card content -->
  <div class="p-4">  <!-- status and priority area -->
 <div class="flex justify-between items-center">
-  ${status === "open" ? '<img src="./assets/open-status.png" alt="">' : '<img src="./assets/close-status.png" alt="">'}
+  ${status === "open" ? '<img src="./assets/Status.png" alt="">' : '<img src="./assets/close-status.png" alt="">'}
 <div>${setPriorityBatch(priority)}</div>
 </div>
 
@@ -166,11 +177,12 @@ tabButtonsContainer.addEventListener("click", (e) => {
 });
 
 async function matchedSearchIssueGet(x) {
+  issuesLoading(true);
   const getMatched = await fetch(
     ` https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${x}`,
   );
   const convData = await getMatched.json();
-
+  issuesLoading(false);
   const { data } = convData;
   renderIssuesUI(data);
 }
@@ -187,27 +199,25 @@ footerSearchBtn.addEventListener("click", () => {
   footerUserSearch.value = "";
 });
 
-
-function modalLoading(wanna){
-  if(wanna){
-    detailsSpinner.classList.remove('hidden')
-issueDetailsModal.classList.add('hidden')
-  }
-  else{
-        detailsSpinner.classList.add('hidden')
-issueDetailsModal.classList.remove('hidden')
+function modalLoading(wanna) {
+  if (wanna) {
+    detailsSpinner.classList.remove("hidden");
+    issueDetailsModal.classList.add("hidden");
+  } else {
+    detailsSpinner.classList.add("hidden");
+    issueDetailsModal.classList.remove("hidden");
   }
 }
 
 async function issueDetailsGet(x) {
-detailsModal.showModal();
-  modalLoading(true)
+  detailsModal.showModal();
+  modalLoading(true);
   const getDetailsData = await fetch(
     `https://phi-lab-server.vercel.app/api/v1/lab/issue/${x}`,
   );
   const convData = await getDetailsData.json();
 
-  modalLoading(false)
+  modalLoading(false);
   const { data } = convData;
 
   const {
@@ -246,17 +256,13 @@ detailsModal.showModal();
 </div>
 </div>
 `;
-
-  
 }
 
 issuesCardContainer.addEventListener("click", (e) => {
   const targetElement = e.target;
 
   const getIssueCard = targetElement.closest(".detail-show");
-  
+
   const issueID = getIssueCard.dataset.id;
   issueDetailsGet(Number(issueID));
 });
-
-
