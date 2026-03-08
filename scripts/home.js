@@ -103,7 +103,7 @@ function renderIssuesUI(getData) {
       labels,
       priority,
       author,
-      createdAt,
+      createdAt
     } = x;
 
     const issueCard = document.createElement("div");
@@ -134,7 +134,7 @@ function renderIssuesUI(getData) {
 </div>
 
 
-<div class="border-t p-4 border-[#E4E4E7]"><!-- author and date -->
+<div class="border-t p-4 border-[#E4E4E7]">
 <p class="text-[#64748B]">${author}</p>
 <p class="text-[#64748B]">${createdAt.slice(0, 10)}</p></div>
 

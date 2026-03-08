@@ -21,3 +21,13 @@ Ans: An arrow function is a shorthand version of a function declaration. We can 
 # 5️⃣ What are template literals?
 
 Ans: Template literals are an ES6 feature for creating dynamic or multiline strings.
+
+
+
+## 🔑 Demo Credentials
+
+```text
+Username: admin
+Password: admin123
+```
+
