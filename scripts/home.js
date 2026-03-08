@@ -115,7 +115,7 @@ function renderIssuesUI(getData) {
 <!-- card content -->
  <div class="p-4">  <!-- status and priority area -->
 <div class="flex justify-between items-center">
-  ${status === "open" ? '<img src="../assets/Status.png" alt="">' : '<img src="./assets/close-status.png" alt="">'}
+  ${status === "open" ? '<p class="badge bg-[#CBFADB] text-[#00A96E] w-6 p-3 rounded-full justify-center"><i class="fa-solid fa-spinner" ></i></span>' : '<p class="badge bg-[#F0E2FF] text-[#A855F7] w-6 p-3 rounded-full justify-center"><i class="fa-regular fa-circle-check" ></i></span>'}
 <div>${setPriorityBatch(priority)}</div>
 </div>
 
